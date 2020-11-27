@@ -1,9 +1,13 @@
 package com.ecommerce.eccomApp.product;
 
 
+import com.ecommerce.eccomApp.category.Category;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 
 
 @Data
@@ -35,6 +39,13 @@ public class Product {
 
     @Column(name="image")
     private String image;
+
+//    @ManyToMany(mappedBy = "cartProducts", fetch = FetchType.EAGER)
+//    private List<Cart> cartAssignments= new ArrayList<>();
+
+//    @Exclude
+    @ManyToMany (mappedBy = "products", fetch = FetchType.EAGER)
+    private Set<Category> categoryAssignments = new HashSet<Category>();
 
 
     public boolean equals(Object thatObject) {
