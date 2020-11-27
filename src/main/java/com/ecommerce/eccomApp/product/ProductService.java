@@ -14,6 +14,11 @@ public class ProductService {
     private ProductRepository productRepository; // extends CrudRepository
 
 
+    // Returns a single Product if it Exist or returns NULL
+    public Product getProduct(Long Id) {
+        return productRepository.findById(Id).orElse(null);
+    }
+
     // Returns a List of All Products that is currently in the database
     public List<Product> getAllProducts() {
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -24,8 +29,4 @@ public class ProductService {
         return productList;
     }
 
-    // Returns a single Product if it Exist or returns NULL
-    public Product getProduct(Long Id) {
-        return productRepository.findById(Id).orElse(null);
-    }
 }
