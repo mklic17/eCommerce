@@ -1,13 +1,20 @@
 package com.ecommerce.eccomApp.category;
 
+import com.ecommerce.eccomApp.catalog.CatalogController;
 import com.ecommerce.eccomApp.product.Product;
 import com.ecommerce.eccomApp.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+//import javax.validation.Valid;
+import java.util.List;
+
 
 @Controller
 @RequestMapping(value="category")   // getAllCategory()
@@ -62,19 +69,21 @@ public class CategoryController {
     }
 
 
-//    @PostMapping("/new")
+    @PostMapping("/new")
 //    public ModelAndView postCategory(@Valid Category cat, BindingResult result) {
-//        ModelAndView mnv = new ModelAndView();
-//        if(result.hasErrors()) {
-//            mnv.setViewName("category/newCategoryForm");
-//            mnv.addObject("category", cat);
-//            return mnv;
-//        }
-//        categoryService.addCategory(cat);
-//        mnv.setViewName("category/list");
-//        mnv.addObject("categories", categoryService.getAllCategory());
-//        return mnv;
-//    }
+    public ModelAndView postCategory(Category cat, BindingResult result) {
+        System.out.println("--------------MK --------------" + cat.getName() + " ***************************** here");
+        ModelAndView mnv = new ModelAndView();
+        if(result.hasErrors()) {
+            mnv.setViewName("category/newCategoryForm");
+            mnv.addObject("category", cat);
+            return mnv;
+        }
+        categoryService.addCategory(cat);
+        mnv.setViewName("category/list");
+        mnv.addObject("categories", categoryService.getAllCategory());
+        return mnv;
+    }
 
 
     @GetMapping("/edit/{Id}")
@@ -100,18 +109,20 @@ public class CategoryController {
         return mnv;
     }
 
-//
-//    @PostMapping("/addProductAssignment")
+
+    @PostMapping("/addProductAssignment")
 //    public String postProductAssignment(@Valid ProductHolder prodHold) {
-//        ModelAndView mnv = new ModelAndView();
-//        // if result.hasError REVIEW
-//        Product p = productService.getProduct(prodHold.getTheProduct());
-//        Long catId = prodHold.getCategoryId();
-//        Category curr = categoryService.getCategory(catId);
-//        curr.addToproducts(p);
-//        categoryService.updateCategory(catId, curr);
-//        return "redirect:/category/" + prodHold.getCategoryId();
-//    }
+    public String postProductAssignment(ProductHolder prodHold) {
+
+        ModelAndView mnv = new ModelAndView();
+        // if result.hasError REVIEW
+        Product p = productService.getProduct(prodHold.getTheProduct());
+        Long catId = prodHold.getCategoryId();
+        Category curr = categoryService.getCategory(catId);
+        curr.addToproducts(p);
+        categoryService.updateCategory(catId, curr);
+        return "redirect:/category/" + prodHold.getCategoryId();
+    }
 
 
     @GetMapping("/deleteProduct/{catId}/{prodId}")
@@ -128,15 +139,15 @@ public class CategoryController {
         return "redirect:/category/" + catId;
     }
 
-//    @GetMapping("/rebuild")
-//    public ModelAndView rebuildIndex() {
-//        ModelAndView mnv = new ModelAndView();
-//        List<Product> allProducts = productService.getAllProducts();
-//        List<Category> allCategory = categoryService.getAllCategory();
-//        CatalogController.rebuildCatalog(allProducts, allCategory);
-//        mnv.setViewName("admin/adminDashboard");
-//        return mnv;
-//    }
+    @GetMapping("/rebuild")
+    public ModelAndView rebuildIndex() {
+        ModelAndView mnv = new ModelAndView();
+        List<Product> allProducts = productService.getAllProducts();
+        List<Category> allCategory = categoryService.getAllCategory();
+        CatalogController.rebuildCatalog(allProducts, allCategory);
+        mnv.setViewName("admin/adminDashboard");
+        return mnv;
+    }
 
 
     public String getNameFromID(Long Id) {

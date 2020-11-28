@@ -2,12 +2,15 @@ package com.ecommerce.eccomApp.catalog;
 
 
 import com.ecommerce.eccomApp.category.Category;
+import com.ecommerce.eccomApp.product.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.List;
 
 @Controller
 public class CatalogController {
@@ -75,15 +78,15 @@ public class CatalogController {
     }
 
 
-//    private static List<Product> getAllProductsInCategory(String categoryId) {
-//        return catalog.getAllProductsInCategory(categoryId);
-//    }
+    private static List<Product> getAllProductsInCategory(String categoryId) {
+        return catalog.getAllProductsInCategory(categoryId);
+    }
 //
 //
-//    public static void rebuildCatalog(List<Product> prodList, List<Category> catList) {
-//        catalog = null;
-//        catalog = Catalog.rebuildCatalog(prodList, catList);
-//    }
+    public static void rebuildCatalog(List<Product> prodList, List<Category> catList) {
+        catalog = null;
+        catalog = Catalog.rebuildCatalog(prodList, catList);
+    }
 
 
 }

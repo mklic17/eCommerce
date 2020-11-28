@@ -5,12 +5,15 @@ import com.ecommerce.eccomApp.catalog.Catalog;
 import com.ecommerce.eccomApp.category.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
+
 
 @Controller
 @RequestMapping({"product"})    // SET TO BE THE MAIN
@@ -41,21 +44,23 @@ public class ProductController {
     }
 
 
-//    @PostMapping("/create") // POST mapping for new product
+    @PostMapping("/create") // POST mapping for new product
 //    public ModelAndView createProduct(@Valid Product prod, BindingResult result) {
-//        ModelAndView mnv = new ModelAndView();
-//        if(result.hasErrors()) {
-//            mnv.setViewName("product/newProductform");
-//            mnv.addObject("heading", "New Product");
-//            mnv.addObject("product", prod);
-////	        mnv.addObject("categories", getCategories());
-//            return mnv;
-//        }
-//        productService.addProduct(prod);
-//        mnv.addObject("product", productService.getProduct(prod.getId()));
-//        mnv.setViewName("product/show");
-//        return mnv;
-//    }
+    public ModelAndView createProduct(Product prod, BindingResult result) {
+
+            ModelAndView mnv = new ModelAndView();
+        if(result.hasErrors()) {
+            mnv.setViewName("product/newProductform");
+            mnv.addObject("heading", "New Product");
+            mnv.addObject("product", prod);
+//	        mnv.addObject("categories", getCategories());
+            return mnv;
+        }
+        productService.addProduct(prod);
+        mnv.addObject("product", productService.getProduct(prod.getId()));
+        mnv.setViewName("product/show");
+        return mnv;
+    }
 
 
     @GetMapping("/edit/{Id}")  // GET  method for editing a product
@@ -68,7 +73,6 @@ public class ProductController {
         mnv.addObject("button", "update");
         return mnv;
     }
-
 
     @GetMapping("/delete/{Id}")
     public ModelAndView deleteProduct(@PathVariable Long Id) {
